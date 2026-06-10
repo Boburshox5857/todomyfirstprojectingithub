@@ -21,6 +21,9 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
+  const [darkMode, setDarkMode] = useState(false);
+  const [dateTime, setDateTime] = useState(new Date());
+  const toggleDarkMode = () => setDarkMode((prev) => !prev);
   const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState("All");
 
@@ -94,9 +97,27 @@ function App(props) {
       listHeadingRef.current.focus();
     }
   }, [tasks.length, prevTaskLength]);
-
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer); // Clean up timer on unmount
+  }, []);
   return (
     <div className="todoapp stack-large">
+       <div className="date-time-display">
+        {dateTime.toLocaleString()}
+      </div>
+      <button onClick={toggleDarkMode} className="dark-mode-toggle">
+  {darkMode ? "Light Mode" : "Dark Mode"}
+</button>
       <h1>TodoMatic</h1>
       <Form addTask={addTask} />
       <div className="filters btn-group stack-exception">{filterList}</div>
