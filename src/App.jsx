@@ -4,6 +4,10 @@ import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 
+function getHeadingText(taskCount) {
+  return `${taskCount} task${taskCount !== 1 ? 's' : ''} remaining`;
+}
+
 function usePrevious(value) {
   const ref = useRef(null);
   useEffect(() => {
@@ -35,7 +39,6 @@ function App(props) {
         // whose `completed` prop has been inverted
         return { ...task, completed: !task.completed };
       }
-      return task;
     });
     setTasks(updatedTasks);
   }
@@ -111,6 +114,7 @@ function App(props) {
     return () => clearInterval(timer); // Clean up timer on unmount
   }, []);
   return (
+    
     <div className="todoapp stack-large">
        <div className="date-time-display">
         {dateTime.toLocaleString()}
@@ -123,7 +127,7 @@ function App(props) {
       <div className="filters btn-group stack-exception">{filterList}</div>
       <h2 id="list-heading" tabIndex="-1" ref={listHeadingRef}>
         {headingText}
-      </h2>
+      </h2><h2>{headingText}</h2>
       <ul
         aria-labelledby="list-heading"
         className="todo-list stack-large stack-exception"
