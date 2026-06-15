@@ -4,6 +4,10 @@ import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 
+function getHeadingText(taskCount) {
+  return `${taskCount} task${taskCount !== 1 ? 's' : ''} remaining`;
+}
+
 function usePrevious(value) {
   const ref = useRef(null);
   useEffect(() => {
@@ -35,6 +39,7 @@ function App(props) {
         // whose `completed` prop has been inverted
         return { ...task, completed: !task.completed };
       }
+      const headingText = getHeadingText(tasks.length);
       return task;
     });
     setTasks(updatedTasks);
